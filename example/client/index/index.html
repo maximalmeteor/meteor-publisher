@@ -1,0 +1,12 @@
+<template name="Index">
+  <h1>Posts</h1>
+  <ul>
+    {{#each posts}}
+      {{> Post}}
+    {{else}}
+      <li>
+        no posts...
+      </li>
+    {{/each}}
+  </ul>
+</template>
