@@ -23,15 +23,16 @@
           return unless definition.security @userId
         else
           return unless definition.security
-
-      definition.collection.find definition.query(params), definition.getOptions()
+      query = definition.query(params)
+      return unless query
+      definition.collection.find query, definition.getOptions()
   extendItem: (instance, name, field, item) ->
     instance.subscribe field.name, item
 
     obj = {}
     obj[name] = ->
       cur = field.collection.find field.query(item), field.getOptions()
-      if cur.count() is 1
+      if field.options.limit is 1
         cur.fetch()[0]
       else
         cur
@@ -62,7 +63,7 @@
       fields[name] = if !!field then 1 else 0
 
     options.fields = fields unless _.isEmpty fields
-    options.limit = @limit if @limit?
-    options.sort = options.sort if options.sort?
+    options.limit = @options.limit if @options.limit?
+    options.sort = @options.sort if @options.sort?
 
     return options

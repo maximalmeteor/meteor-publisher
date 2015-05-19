@@ -24,7 +24,7 @@ Publisher =
         @modifiedData = new ReactiveVar()
         @autorun =>
           cursor = definition.collection.find definition.query(this.data), definition.getOptions()
-          if cursor.count() is 1
+          if definition.options.limit is 1
             @publishedData.set cursor.fetch()[0]
           else
             @publishedData.set cursor
