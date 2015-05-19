@@ -1,5 +1,6 @@
 Meteor.startup ->
   Posts.remove {}
+  Events.remove {}
   Authors.remove {}
 
   for i in [0...20]
@@ -14,3 +15,8 @@ Meteor.startup ->
       authorId: authorId
       body: Fake.paragraph 10
       createdAt: new Date()
+
+    Events.insert
+      name: Fake.sentence 3
+      date: new Date()
+      memberIds: Authors.find().map (author) -> author._id

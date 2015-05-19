@@ -1,0 +1,15 @@
+<template name="Event">
+  <li>
+    {{#if Template.subscriptionsReady}}
+      {{data.name}}
+      <span class="date">{{data.date}}</span>
+      <div class="members">
+        {{#each data.members}}
+          {{firstname}} {{lastname}},
+        {{/each}}
+      </div>
+    {{else}}
+      loading...
+    {{/if}}
+  </li>
+</template>

@@ -1,0 +1,19 @@
+<template name="Events">
+  <h1>Events</h1>
+  <ul>
+    {{#if Template.subscriptionsReady}}
+      {{#each data}}
+        {{> Event}}
+      {{else}}
+        <li>
+          no events...
+        </li>
+      {{/each}}
+    {{else}}
+      <li>
+        loading...
+      </li>
+    {{/if}}
+  </ul>
+
+</template>
