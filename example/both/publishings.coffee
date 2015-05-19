@@ -1,3 +1,26 @@
+PublisherDefinitions =
+  Company: new Publisher.Definition
+    name: 'single_company'
+    limit: 1
+    collection: 'companies'
+    query: (author) ->
+      return unless author?.companyId?
+      _id: author.companyId
+    fields:
+      name: 1
+      managerId: 1
+      manager: new Publisher.Definition
+        name: 'company_manager'
+        limit: 1
+        query: (company) ->
+          return unless company?.managerId?
+          _id: company.managerId
+        collection: 'authors'
+        fields:
+          firstname: 1
+          lastname: 1
+
+
 Publisher.setupTemplate 'Posts', new Publisher.Definition
   name: 'index_posts'
   collection: 'posts'
@@ -29,15 +52,7 @@ Publisher.setupTemplate 'Post', new Publisher.Definition
         firstname: 1
         lastname: 1
         companyId: 1
-        company: new Publisher.Definition
-          name: 'single_company'
-          limit: 1
-          collection: 'companies'
-          query: (author) ->
-            return unless author?.companyId?
-            _id: author.companyId
-          fields:
-            name: 1
+        company: PublisherDefinitions.Company
 
 Publisher.setupTemplate 'Events', new Publisher.Definition
   name: 'index_events'
@@ -69,3 +84,5 @@ Publisher.setupTemplate 'Event', new Publisher.Definition
       fields:
         firstname: 1
         lastname: 1
+        companyId: 1
+        company: PublisherDefinitions.Company

@@ -5,7 +5,7 @@
       <span class="date">{{data.date}}</span>
       <div class="members">
         {{#each data.members}}
-          {{firstname}} {{lastname}},
+          {{firstname}} {{lastname}} ({{company.name}} - {{company.manager.firstname}} {{company.manager.lastname}}),
         {{/each}}
       </div>
     {{else}}
