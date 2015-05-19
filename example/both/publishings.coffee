@@ -25,7 +25,8 @@ Publisher.setupTemplate 'Posts', new Publisher.Definition
   name: 'index_posts'
   collection: 'posts'
   query: {}
-  limit: 10
+  limit: (params) ->
+    params?.limit or 10
   sort:
     createdAt: -1
   fields:

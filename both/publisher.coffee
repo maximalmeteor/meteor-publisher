@@ -19,15 +19,23 @@ Publisher =
       template.onCreated ->
         @publishedData = new ReactiveVar()
         @modifiedData = new ReactiveVar()
+        @subscribeParams = new ReactiveVar()
+
         @autorun =>
-          cursor = definition.collection.find definition.query(this.data), definition.getOptions()
+          query = definition.query(@data)
+          options = definition.getOptions @subscribeParams.get()
+          cursor = definition.collection.find query, options
           if definition.options.limit is 1
             @publishedData.set cursor.fetch()[0]
           else
             @publishedData.set cursor
+
         @autorun =>
-          @modifiedData.set definition.resolveFields template, this, @publishedData.get()
+          data = @publishedData.get()
+          @modifiedData.set definition.resolveFields template, this, data
+
         @autorun =>
-          @subscribe definition.name, @data
+          @subscribe definition.name, @data, @subscribeParams.get()
 
   Definition: Definition
+  Utilities: Utilities

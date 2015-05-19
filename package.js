@@ -19,6 +19,7 @@ Package.onUse(function(api) {
   api.addFiles([], server);
   api.addFiles([], client);
   api.addFiles([
+    'both/utilities.coffee',
     'both/definition.coffee',
     'both/publisher.coffee'
   ], both);

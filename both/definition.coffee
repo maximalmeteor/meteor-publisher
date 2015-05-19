@@ -18,7 +18,7 @@
     @publish() if Meteor.isServer
   publish: ->
     definition = this
-    Meteor.publish definition.name, (params) ->
+    Meteor.publish definition.name, (params, subscribeParams) ->
       if definition.security?
         if typeof definition.security is 'function'
           return @ready() unless definition.security @userId
@@ -26,14 +26,15 @@
           return @ready() unless definition.security
       query = definition.query(params)
       return @ready() unless query
-      definition.collection.find query, definition.getOptions()
+      definition.collection.find query, definition.getOptions subscribeParams
   extendItem: (template, instance, name, field, item) ->
     return unless item?
-    instance.subscribe field.name, item
+    instance.subscribe field.name, item, instance.subscribeParams.get()
     data = new ReactiveVar()
     modified = new ReactiveVar()
     instance.autorun ->
-      cur = field.collection.find field.query(item), field.getOptions()
+      options = field.getOptions instance.subscribeParams.get()
+      cur = field.collection.find field.query(item), options
       if field.options.limit is 1
         data.set cur.fetch()[0]
       else
@@ -59,14 +60,16 @@
 
     return currentData
 
-  getOptions: ->
+  getOptions: (params) ->
     options = {}
     fields = {}
     for name, field of @fields
       fields[name] = if !!field then 1 else 0
 
     options.fields = fields unless _.isEmpty fields
-    options.limit = @options.limit if @options.limit?
-    options.sort = @options.sort if @options.sort?
+    if @options.limit?
+      options.limit = Publisher.Utilities.applyParams @options.limit, this, params
+    if @options.sort?
+      options.sort = Publisher.Utilities.applyParams @options.sort, this, params
 
     return options
