@@ -4,11 +4,14 @@ Meteor.startup ->
   Authors.remove {}
 
   for i in [0...20]
+    companyId = Companies.insert name: Fake.word()
+
     user = Fake.user()
     authorId = Authors.insert
       firstname: user.name
       lastname: user.surname
       email: user.email
+      companyId: companyId
 
     Posts.insert
       name: Fake.sentence 5
