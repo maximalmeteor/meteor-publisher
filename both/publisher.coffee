@@ -3,9 +3,6 @@ Publisher =
     check templateName, String
     check definition, Publisher.Definition
 
-    if Meteor.isServer
-      definition.publish()
-
     if Meteor.isClient
       template = Template[templateName]
       template.helpers

@@ -14,47 +14,50 @@
 
     @fields = definition.fields
     @security = definition.security
+
+    @publish() if Meteor.isServer
   publish: ->
     definition = this
-    definition.resolveFields()
     Meteor.publish definition.name, (params) ->
       if definition.security?
         if typeof definition.security is 'function'
-          return unless definition.security @userId
+          return @ready() unless definition.security @userId
         else
-          return unless definition.security
+          return @ready() unless definition.security
       query = definition.query(params)
-      return unless query
+      return @ready() unless query
       definition.collection.find query, definition.getOptions()
-  extendItem: (instance, name, field, item) ->
+  extendItem: (template, instance, name, field, item) ->
+    return unless item?
     instance.subscribe field.name, item
+    data = new ReactiveVar()
+    modified = new ReactiveVar()
+    instance.autorun ->
+      cur = field.collection.find field.query(item), field.getOptions()
+      if field.options.limit is 1
+        data.set cur.fetch()[0]
+      else
+        data.set cur
+    instance.autorun ->
+      modified.set field.resolveFields template, instance, data.get()
 
     obj = {}
     obj[name] = ->
-      cur = field.collection.find field.query(item), field.getOptions()
-      if field.options.limit is 1
-        cur.fetch()[0]
-      else
-        cur
+      modified.get() or data.get()
     _.extend item, obj
   resolveFields: (template, instance, currentData) ->
     for name, field of @fields when field instanceof Publisher.Definition
-      if Meteor.isServer
-        field.publish()
-        field.resolveFields()
+      if currentData instanceof Mongo.Cursor
+        currentData = currentData.fetch()
 
-      if Meteor.isClient
-        if currentData instanceof Mongo.Cursor
-          currentData = currentData.fetch()
-
+      Tracker.nonreactive =>
         if currentData instanceof Array
           for item in currentData
-            item = @extendItem instance, name, field, item
+            item = @extendItem template, instance, name, field, item
         else
-          currentData = @extendItem instance, name, field, currentData
+          currentData = @extendItem template, instance, name, field, currentData
 
-        currentData = field.resolveFields template, instance, currentData
-      return currentData
+    return currentData
 
   getOptions: ->
     options = {}

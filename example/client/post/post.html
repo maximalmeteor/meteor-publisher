@@ -2,7 +2,7 @@
   <li>
     {{#if Template.subscriptionsReady}}
       {{data.name}}
-      <span class="author">{{data.author.firstname}} {{data.author.lastname}}</span>
+      <span class="author">{{data.author.firstname}} {{data.author.lastname}} ({{data.author.company.name}})</span>
     {{else}}
       loading...
     {{/if}}

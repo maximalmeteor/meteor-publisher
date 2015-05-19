@@ -28,6 +28,16 @@ Publisher.setupTemplate 'Post', new Publisher.Definition
       fields:
         firstname: 1
         lastname: 1
+        companyId: 1
+        company: new Publisher.Definition
+          name: 'single_company'
+          limit: 1
+          collection: 'companies'
+          query: (author) ->
+            return unless author?.companyId?
+            _id: author.companyId
+          fields:
+            name: 1
 
 Publisher.setupTemplate 'Events', new Publisher.Definition
   name: 'index_events'
