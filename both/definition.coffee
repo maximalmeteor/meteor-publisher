@@ -45,7 +45,6 @@
       if Meteor.isClient
         if currentData instanceof Mongo.Cursor
           currentData = currentData.fetch()
-        console.log currentData
 
         if currentData instanceof Array
           for item in currentData

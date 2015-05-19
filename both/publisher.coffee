@@ -14,7 +14,6 @@ Publisher =
           return unless instance?
           modified = instance.modifiedData.get()
           published = instance.publishedData.get()
-          console.log modified, published
 
           if modified?
             return modified
@@ -25,13 +24,11 @@ Publisher =
         @modifiedData = new ReactiveVar()
         @autorun =>
           cursor = definition.collection.find definition.query(this.data), definition.getOptions()
-          console.log cursor.count()
           if cursor.count() is 1
             @publishedData.set cursor.fetch()[0]
           else
             @publishedData.set cursor
         @autorun =>
-          console.log 'resolveFields'
           @modifiedData.set definition.resolveFields template, this, @publishedData.get()
         @autorun =>
           @subscribe definition.name, @data
