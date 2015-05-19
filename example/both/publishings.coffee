@@ -1,4 +1,4 @@
-Publisher.setupTemplate 'Index', new Publisher.Definition
+Publisher.setupTemplate 'Posts', new Publisher.Definition
   name: 'index_posts'
   collection: 'posts'
   query: {}
