@@ -11,6 +11,6 @@ Meteor.startup ->
 
     Posts.insert
       name: Fake.sentence 5
-      author: authorId
+      authorId: authorId
       body: Fake.paragraph 10
       createdAt: new Date()

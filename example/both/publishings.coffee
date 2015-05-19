@@ -1,23 +1,27 @@
-Publisher.setupTemplate 'Index', (data) ->
-  collection: 'posts',
+Publisher.setupTemplate 'Index', new Publisher.Definition
+  name: 'index_posts'
+  collection: 'posts'
   query: {}
   limit: 10
   sort:
     createdAt: 'desc'
   fields:
     _id: 1
-  security: (userId) ->
-    !!userId
+  security: true
 
-Publisher.setupTemplate 'Post', (data) ->
+Publisher.setupTemplate 'Post', new Publisher.Definition
+  name: 'single_post'
   collection: 'posts'
-  query:
+  query: (data) ->
     _id: data._id
   fields:
     name: 1
-    author: (post) ->
+    authorId: 1
+    author: new Publisher.Definition
+      name: 'single_author'
       collection: 'authors'
-      _id: post.author
+      query: (post) ->
+        _id: post.authorId
       fields:
         firstname: 1
         lastname: 1
