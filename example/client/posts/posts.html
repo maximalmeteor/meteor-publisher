@@ -1,21 +1,15 @@
 <template name="Posts">
   <h1>Posts</h1>
   <ul>
-    {{#if Template.subscriptionsReady}}
-      {{#each data}}
-        {{> Post}}
-      {{else}}
-        <li>
-          no posts...
-        </li>
-      {{/each}}
-      <li>
-        <button class="more">more...</button>
-      </li>
+    {{#each data}}
+      {{> Post}}
     {{else}}
       <li>
-        loading...
+        no posts...
       </li>
-    {{/if}}
+    {{/each}}
+    <li>
+      <button class="more">more...</button>
+    </li>
   </ul>
 </template>
