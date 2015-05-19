@@ -5,44 +5,46 @@ Meteor package that create automatic publications and make template subscription
 Publisher needs to be configured on client and server. Mostly the easiest way is to configure Publisher in a file in your `both` folder.
 
 ````javascript
-Publisher.setupTemplate('NewestPosts', function(data){
-  return {
-    collection: 'posts',
-    query: {},
-    limit: 10,
-    sort: {
-      createdAt: 'desc' // false, 0 and -1 are also possible values for descending
-    },
-    fields: {
-      _id: 1
-    },
-    security: function(userId) {
-      return !!userId; // only allow if user is logged in
-    }
-  }
-});
+Publisher.setupTemplate('Index', new Publisher.Definition({
+  name: 'index_posts',
+  collection: 'posts',
+  query: {},
+  limit: 10,
+  sort: {
+    createdAt: 'desc'
+  },
+  fields: {
+    _id: 1
+  },
+  security: true
+}));
 ````
 
 ````javascript
-Publisher.setupTemplate('Post', function(data){
-  return {
-    collection: 'posts', // collection from which the data on the template should be
-    query: {
-      _id: data._id,
-    }
-    fields: { //
-      name: 1,
-      author: function(post) {
+Publisher.setupTemplate('Post', new Publisher.Definition({
+  name: 'single_post',
+  collection: 'posts',
+  query: function(data) {
+    return {
+      _id: data._id
+    };
+  },
+  fields: {
+    name: 1,
+    authorId: 1,
+    author: new Publisher.Definition({
+      name: 'single_author',
+      collection: 'authors',
+      query: function(post) {
         return {
-          collection: 'authors',
-          _id: post.author,
-          fields: {
-            firstname: 1,
-            lastname: 1
-          }
+          _id: post.authorId
         };
+      },
+      fields: {
+        firstname: 1,
+        lastname: 1
       }
-    }
-  };
-});
+    })
+  }
+}));
 ````
