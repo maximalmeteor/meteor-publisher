@@ -1,6 +1,10 @@
 <template name="Post">
   <li>
-    {{data.name}}
-    <span class="author">{{data.author.firstname}} {{data.author.lastname}}</span>
+    {{#if Template.subscriptionsReady}}
+      {{data.name}}
+      <span class="author">{{data.author.firstname}} {{data.author.lastname}}</span>
+    {{else}}
+      loading...
+    {{/if}}
   </li>
 </template>

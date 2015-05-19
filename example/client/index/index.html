@@ -1,12 +1,18 @@
 <template name="Index">
   <h1>Posts</h1>
   <ul>
-    {{#each data}}
-      {{> Post}}
+    {{#if Template.subscriptionsReady}}
+      {{#each data}}
+        {{> Post}}
+      {{else}}
+        <li>
+          no posts...
+        </li>
+      {{/each}}
     {{else}}
       <li>
-        no posts...
+        loading...
       </li>
-    {{/each}}
+    {{/if}}
   </ul>
 </template>
