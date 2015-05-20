@@ -41,7 +41,8 @@
           @modifiedData.set definition.resolveFields template, this, data
 
         @autorun =>
-          @subscribe definition.name, @data, @subscribeParams.get()
+          subscribeParams = @subscribeParams.get()
+          @subscribe definition.name, definition.params(@data), subscribeParams
 
   @Definition: Definition
   @Utilities: Utilities

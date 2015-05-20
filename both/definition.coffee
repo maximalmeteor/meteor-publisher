@@ -9,6 +9,11 @@
     else
       @query = -> definition.query
 
+    if typeof definition.params is 'function'
+      @params = definition.params
+    else
+      @params = (data) -> data
+
     @options =
       limit: definition.limit
       sort: definition.sort
@@ -30,7 +35,8 @@
       definition.collection().find query, definition.getOptions subscribeParams
   extendItem: (template, instance, name, field, item) ->
     return unless item?
-    instance.subscribe field.name, item, instance.subscribeParams.get()
+    subscribeParams = instance.subscribeParams.get()
+    instance.subscribe field.name, field.params(item), subscribeParams
     data = new ReactiveVar()
     modified = new ReactiveVar()
     instance.autorun ->
@@ -69,9 +75,9 @@
       fields[name] = if !!field then 1 else 0
 
     options.fields = fields unless _.isEmpty fields
-    if @options.limit?
-      options.limit = Publisher.Utilities.applyParams @options.limit, this, params
-    if @options.sort?
-      options.sort = Publisher.Utilities.applyParams @options.sort, this, params
+    if limit = @options.limit
+      options.limit = Publisher.Utilities.applyParams limit, this, params
+    if sort = @options.sort
+      options.sort = Publisher.Utilities.applyParams sort, this, params
 
     return options
