@@ -6,7 +6,7 @@
     if Meteor.isServer
       Publisher._log
         msg: 'setupTemplate called on server'
-        level: 'warn'
+        level: 'info'
 
     if Meteor.isClient
       template = Template[templateName]
