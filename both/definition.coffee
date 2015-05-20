@@ -1,7 +1,8 @@
 @Definition = class Definition
   constructor: (definition) ->
     @name = definition.name
-    @collection = Mongo.Collection.get definition.collection
+    @collection = ->
+      Mongo.Collection.get definition.collection
 
     if typeof definition.query is 'function'
       @query = definition.query
@@ -26,7 +27,7 @@
           return @ready() unless definition.security
       query = definition.query(params, subscribeParams)
       return @ready() unless query
-      definition.collection.find query, definition.getOptions subscribeParams
+      definition.collection().find query, definition.getOptions subscribeParams
   extendItem: (template, instance, name, field, item) ->
     return unless item?
     instance.subscribe field.name, item, instance.subscribeParams.get()
@@ -35,7 +36,7 @@
     instance.autorun ->
       subscribeParams = instance.subscribeParams.get()
       options = field.getOptions subscribeParams
-      cur = field.collection.find field.query(item, subscribeParams), options
+      cur = field.collection().find field.query(item, subscribeParams), options
       if field.options.limit is 1
         data.set cur.fetch()[0]
       else
