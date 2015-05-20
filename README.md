@@ -48,3 +48,6 @@ Publisher.setupTemplate('Post', new Publisher.Definition({
   }
 }));
 ````
+
+## Debugging
+You can enable debug logging by setting `Publisher.debug = true`

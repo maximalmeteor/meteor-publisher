@@ -44,7 +44,9 @@
 
   @Definition: Definition
   @Utilities: Utilities
+  @debug = false
   @_log: (options) ->
+    return unless Publisher.debug
     levels = ['log', 'info', 'debug', 'warn', 'error']
     options.level = 'log' unless options.level in levels
     console[options.level] options.msg
