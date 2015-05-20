@@ -1,7 +1,7 @@
 # maximal:publisher
 Meteor package that create automatic publications and make template subscriptions easier to use
 
-# Configuration
+# Usage
 Publisher needs to be configured on client and server. Mostly the easiest way is to configure Publisher in a file in your `both` folder.
 
 ````javascript
