@@ -1,6 +1,6 @@
 Package.describe({
   name: 'maximal:publisher',
-  version: '0.0.1',
+  version: '0.1.0',
   summary: 'Package that create automatic publications and make template subcriptions easier to use',
   git: 'https://github.com/maximalmeteor/meteor-publisher',
   documentation: 'README.md'
