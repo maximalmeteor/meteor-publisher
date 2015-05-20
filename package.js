@@ -1,8 +1,8 @@
 Package.describe({
-  name: 'maxnowack:publisher',
+  name: 'maximal:publisher',
   version: '0.0.1',
   summary: 'Package that create automatic publications and make template subcriptions easier to use',
-  git: 'https://github.com/maxnowack/meteor-publisher',
+  git: 'https://github.com/maximalmeteor/meteor-publisher',
   documentation: 'README.md'
 });
 
@@ -30,7 +30,7 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('coffeescript');
-  api.use('maxnowack:publisher');
+  api.use('maximal:publisher');
 
   var server = 'server';
   var client = 'client';
