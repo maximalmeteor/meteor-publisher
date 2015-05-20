@@ -1,5 +1,5 @@
-Publisher =
-  setupTemplate: (templateName, definition) ->
+@Publisher = class Publisher
+  @setupTemplate: (templateName, definition) ->
     check templateName, String
     check definition, Publisher.Definition
 
@@ -37,5 +37,5 @@ Publisher =
         @autorun =>
           @subscribe definition.name, @data, @subscribeParams.get()
 
-  Definition: Definition
-  Utilities: Utilities
+  @Definition: Definition
+  @Utilities: Utilities
