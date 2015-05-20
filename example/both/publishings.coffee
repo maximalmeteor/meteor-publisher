@@ -1,27 +1,6 @@
-PublisherDefinitions =
-  Company: new Publisher.Definition
-    name: 'single_company'
-    limit: 1
-    collection: 'companies'
-    query: (author) ->
-      return unless author?.companyId?
-      _id: author.companyId
-    fields:
-      name: 1
-      managerId: 1
-      manager: new Publisher.Definition
-        name: 'company_manager'
-        limit: 1
-        query: (company) ->
-          return unless company?.managerId?
-          _id: company.managerId
-        collection: 'authors'
-        fields:
-          firstname: 1
-          lastname: 1
+PublisherDefinitions = {}
 
-
-Publisher.setupTemplate 'Posts', new Publisher.Definition
+PublisherDefinitions.LatestPosts = new Publisher.Definition
   name: 'index_posts'
   collection: 'posts'
   query: {}
@@ -33,7 +12,28 @@ Publisher.setupTemplate 'Posts', new Publisher.Definition
     _id: 1
   security: true
 
-Publisher.setupTemplate 'Post', new Publisher.Definition
+PublisherDefinitions.Company = new Publisher.Definition
+  name: 'single_company'
+  limit: 1
+  collection: 'companies'
+  query: (author) ->
+    return unless author?.companyId?
+    _id: author.companyId
+  fields:
+    name: 1
+    managerId: 1
+    manager: new Publisher.Definition
+      name: 'company_manager'
+      limit: 1
+      query: (company) ->
+        return unless company?.managerId?
+        _id: company.managerId
+      collection: 'authors'
+      fields:
+        firstname: 1
+        lastname: 1
+
+PublisherDefinitions.SinglePost = new Publisher.Definition
   name: 'single_post'
   collection: 'posts'
   query: (data) ->
@@ -55,7 +55,7 @@ Publisher.setupTemplate 'Post', new Publisher.Definition
         companyId: 1
         company: PublisherDefinitions.Company
 
-Publisher.setupTemplate 'Events', new Publisher.Definition
+PublisherDefinitions.Events = new Publisher.Definition
   name: 'index_events'
   collection: 'events'
   query: {}
@@ -66,7 +66,7 @@ Publisher.setupTemplate 'Events', new Publisher.Definition
     _id: 1
   security: true
 
-Publisher.setupTemplate 'Event', new Publisher.Definition
+PublisherDefinitions.Event = new Publisher.Definition
   name: 'single_event'
   collection: 'events'
   query: (data) ->
