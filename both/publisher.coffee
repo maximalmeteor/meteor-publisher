@@ -3,6 +3,11 @@
     check templateName, String
     check definition, Publisher.Definition
 
+    if Meteor.isServer
+      Publisher._log
+        msg: 'setupTemplate called on server'
+        level: 'warn'
+
     if Meteor.isClient
       template = Template[templateName]
       template.helpers
@@ -39,3 +44,7 @@
 
   @Definition: Definition
   @Utilities: Utilities
+  @_log: (options) ->
+    levels = ['log', 'info', 'debug', 'warn', 'error']
+    options.level = 'log' unless options.level in levels
+    console[options.level] options.msg
