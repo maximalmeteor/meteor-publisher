@@ -1,6 +1,6 @@
 Package.describe({
   name: 'maximal:publisher',
-  version: '0.1.0',
+  version: '0.2.0',
   summary: 'Package that create automatic publications and make template subcriptions easier to use',
   git: 'https://github.com/maximalmeteor/meteor-publisher',
   documentation: 'README.md'
@@ -10,6 +10,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
   api.use('coffeescript');
   api.use('reactive-var');
+  api.use('mongo');
   api.use('dburles:mongo-collection-instances@0.3.3');
 
   var server = 'server';

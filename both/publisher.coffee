@@ -27,8 +27,9 @@
         @subscribeParams = new ReactiveVar()
 
         @autorun =>
-          query = definition.query(@data)
-          options = definition.getOptions @subscribeParams.get()
+          subscribeParams = @subscribeParams.get()
+          query = definition.query @data, subscribeParams
+          options = definition.getOptions subscribeParams
           cursor = definition.collection.find query, options
           if definition.options.limit is 1
             @publishedData.set cursor.fetch()[0]

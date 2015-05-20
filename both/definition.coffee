@@ -24,7 +24,7 @@
           return @ready() unless definition.security @userId
         else
           return @ready() unless definition.security
-      query = definition.query(params)
+      query = definition.query(params, subscribeParams)
       return @ready() unless query
       definition.collection.find query, definition.getOptions subscribeParams
   extendItem: (template, instance, name, field, item) ->
@@ -33,8 +33,9 @@
     data = new ReactiveVar()
     modified = new ReactiveVar()
     instance.autorun ->
-      options = field.getOptions instance.subscribeParams.get()
-      cur = field.collection.find field.query(item), options
+      subscribeParams = instance.subscribeParams.get()
+      options = field.getOptions subscribeParams
+      cur = field.collection.find field.query(item, subscribeParams), options
       if field.options.limit is 1
         data.set cur.fetch()[0]
       else
