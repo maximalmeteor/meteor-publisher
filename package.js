@@ -1,8 +1,8 @@
 Package.describe({
-  name: 'maximal:publisher',
-  version: '0.2.1',
+  name: 'maximum:publisher',
+  version: '0.3.0',
   summary: 'Package that create automatic publications and make template subcriptions easier to use',
-  git: 'https://github.com/maximalmeteor/meteor-publisher',
+  git: 'https://github.com/maximummeteor/meteor-publisher',
   documentation: 'README.md'
 });
 
@@ -31,7 +31,7 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('coffeescript');
-  api.use('maximal:publisher');
+  api.use('maximum:publisher');
 
   var server = 'server';
   var client = 'client';

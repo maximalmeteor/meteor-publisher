@@ -1,4 +1,4 @@
-# maximal:publisher
+# maximum:publisher
 Meteor package that create automatic publications and make template subscriptions easier to use
 
 # Usage
